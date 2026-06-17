@@ -1,0 +1,15 @@
+FROM ghcr.io/openclaw/openclaw:latest
+
+USER root
+RUN curl -fsSL https://github.com/pimalaya/himalaya/releases/download/v1.2.0/himalaya.aarch64-linux.tgz \
+    -o /tmp/himalaya.tgz \
+    && tar -xzf /tmp/himalaya.tgz -C /usr/local/bin \
+    && chmod +x /usr/local/bin/himalaya \
+    && rm /tmp/himalaya.tgz
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+USER node
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["openclaw", "gateway", "run", "--bind", "lan"]

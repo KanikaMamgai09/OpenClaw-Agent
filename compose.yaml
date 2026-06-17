@@ -1,0 +1,34 @@
+# Shared workspace volume — config, memory, and state persist here across restarts
+volumes:
+  openclaw-workspace:
+    name: openclaw-workspace
+
+services:
+
+  # One-time setup service — used for onboarding, adding channels, changing models
+  openclaw:
+    image: ghcr.io/openclaw/openclaw:latest
+    container_name: openclaw
+    volumes:
+      - openclaw-workspace:/workspace
+    environment:
+      - OPENCLAW_WORKSPACE=/workspace
+      - OPENCLAW_STATE_DIR=/workspace/.openclaw
+    stdin_open: true
+    tty: true
+
+  # Always-running gateway — connects to Telegram and serves the web dashboard
+  openclaw-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile.gateway   # extends official image with himalaya (email)
+    container_name: openclaw-gateway
+    restart: unless-stopped            # auto-restarts on crash or machine reboot
+    volumes:
+      - openclaw-workspace:/workspace  # reads config written by openclaw service
+    environment:
+      - OPENCLAW_WORKSPACE=/workspace
+      - OPENCLAW_STATE_DIR=/workspace/.openclaw
+      - HIMALAYA_CONFIG=/workspace/.himalaya/config.toml  # gmail credentials
+    ports:
+      - "127.0.0.1:18789:18789"        # web dashboard — localhost only
