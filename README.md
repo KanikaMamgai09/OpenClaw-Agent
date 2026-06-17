@@ -13,6 +13,20 @@ A personal AI agent that runs in Docker, connects to Telegram, reads Gmail, and 
 
 ---
 
+## Demo
+
+### Agent Introduction
+![Agent Welcome](sample-data/telegram-welcome.png)
+
+### Email Inbox Summary
+![Email Summary](sample-data/telegram-email.png)
+
+### Meeting Transcript Summary
+![Meeting Summary](sample-data/telegram-meeting-1.png)
+![Action Items](sample-data/telegram-meeting-2.png)
+
+---
+
 ## Requirements
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
@@ -27,8 +41,8 @@ A personal AI agent that runs in Docker, connects to Telegram, reads Gmail, and 
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/your-username/GTM-OpenClaw.git
-cd GTM-OpenClaw
+git clone https://github.com/KanikaMamgai09/OpenClaw-Agent.git
+cd OpenClaw-Agent
 ```
 
 ### 2. Create your `.env` file
@@ -72,13 +86,14 @@ Your agent is now running. Open Telegram and message your bot.
 ## Project Structure
 
 ```
-GTM-OpenClaw/
+OpenClaw-Agent/
 ├── compose.yaml          # Docker services definition
 ├── Dockerfile.gateway    # Custom image with Gmail (himalaya) support
 ├── entrypoint.sh         # Links Gmail config on container start
 ├── .env                  # Your secrets (never committed to git)
 ├── .env.example          # Template for .env
-└── .gitignore            # Keeps .env out of git
+├── .gitignore            # Keeps .env out of git
+└── sample-data/          # Example outputs and demo transcript
 ```
 
 ---
